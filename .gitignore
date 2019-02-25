@@ -1,0 +1,9 @@
+_*
+*.o
+*.plt
+*.swp
+*.swo
+log
+logs
+.idea
+.DS_Store

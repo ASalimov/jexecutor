@@ -1,0 +1,68 @@
+{
+  "url": "https://jenkins.backend.pi.wuamerigo.com/",
+  "username": "",
+  "token": "",
+  "threads": 10,
+  "jobs": [
+    [
+      {
+        "id": "admin-rpm-deploy-autodeploy",
+        "q": {
+          "COUNTRY": "kuwait",
+          "ISO": "kw",
+          "TAG": "1.62.0"
+        }
+      },
+      {
+        "id": "admin-rpm-deploy-autodeploy",
+        "q": {
+          "COUNTRY": "bahrain",
+          "ISO": "bh",
+          "TAG": "1.62.0"
+        }
+      },
+      {
+        "id": "web-rpm-deploy-autodeploy",
+        "q": {
+          "COUNTRY": "kuwait",
+          "ISO": "kw",
+          "TAG": "1.62.0"
+        }
+      },
+      {
+        "id": "web-rpm-deploy-autodeploy",
+        "q": {
+          "COUNTRY": "bahrain",
+          "ISO": "bh",
+          "TAG": "1.62.0"
+        }
+      }
+    ],
+    [
+      {
+        "id": "web-rpm-transfer-autodeploy",
+        "q": {
+          "COUNTRY": "kuwait"
+        }
+      },
+      {
+        "id": "web-rpm-transfer-autodeploy",
+        "q": {
+          "COUNTRY": "bahrain"
+        }
+      },
+      {
+        "id": "admin-rpm-transfer-autodeploy",
+        "q": {
+          "COUNTRY": "kuwait"
+        }
+      },
+      {
+        "id": "admin-rpm-transfer-autodeploy",
+        "q": {
+          "COUNTRY": "bahrain"
+        }
+      }
+    ]
+  ]
+}
