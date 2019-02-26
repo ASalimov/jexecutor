@@ -10,7 +10,7 @@ type Order struct {
 	Query map[string]interface{}
 }
 
-func (o *Order) GetVals() (rsp string) {
+func (o *Order) getVals() (rsp string) {
 	// To store the keys in slice in sorted order
 	var keys []string
 	for k := range o.Query {

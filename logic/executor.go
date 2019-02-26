@@ -14,7 +14,7 @@ import (
 	"time"
 )
 
-const SizeBarText = 60
+const sizeBarText = 60
 
 // An Executor is structure
 type Executor struct {
@@ -126,7 +126,7 @@ func (e *Executor) executeJOB(order *Order, pb *pb.ProgressBar) (string, error) 
 		log.Fatalf("http error code2 " + strconv.Itoa(code) + "\t" + "path:=" + order.Job)
 	}
 	nextBuildNumber := lastJobInfo.Path("nextBuildNumber").String()
-	log.Debugln("nextBuildNumber %s", nextBuildNumber)
+	log.Debugf("nextBuildNumber %s", nextBuildNumber)
 	//fmt.Print("build...")
 	status := "building"
 
@@ -152,32 +152,33 @@ func (e *Executor) executeJOB(order *Order, pb *pb.ProgressBar) (string, error) 
 					if lastBuildInfo.Path("result").Data().(string) == "SUCCESS" {
 						//if true == true{ for gif building
 						status = "finished"
-						pb.Prefix(strutil.PadRight(order.Job+"("+order.GetVals()+")"+": "+status, SizeBarText, []byte(" ")[0]))
+						pb.Prefix(strutil.PadRight(order.Job+"("+order.getVals()+")"+": "+status, sizeBarText, []byte(" ")[0]))
 						for k := t; k < ticsize; k++ {
 							if pb != nil {
-								pb.Prefix(strutil.PadRight(order.Job+"("+order.GetVals()+")"+": "+status, SizeBarText, []byte(" ")[0]))
+								pb.Prefix(strutil.PadRight(order.Job+"("+order.getVals()+")"+": "+status, sizeBarText, []byte(" ")[0]))
 								pb.Increment()
 							}
 							time.Sleep(10 * time.Millisecond)
 						}
 						time.Sleep(1 * time.Second)
 						return "", err
-					} else {
-						if pb != nil {
-							pb.Prefix(strutil.PadRight(order.Job+"("+order.GetVals()+")"+": failed", SizeBarText, []byte(" ")[0]))
-							pb.Increment()
-						}
-						time.Sleep(1 * time.Second)
-						id := lastBuildInfo.Path("id").Data().(string)
-						path := "/job/" + order.Job + "/" + id + "/console"
-						//path := "/job/" + order.Job + "/" + "10" + "/console" for gif building
-						log.Fatalf("FAILURE, link " + order.Job + path)
 					}
+
+					if pb != nil {
+						pb.Prefix(strutil.PadRight(order.Job+"("+order.getVals()+")"+": failed", sizeBarText, []byte(" ")[0]))
+						pb.Increment()
+					}
+					time.Sleep(1 * time.Second)
+					id := lastBuildInfo.Path("id").Data().(string)
+					path := "/job/" + order.Job + "/" + id + "/console"
+					//path := "/job/" + order.Job + "/" + "10" + "/console" for gif building
+					log.Fatalf("FAILURE, link " + order.Job + path)
+
 				}
 			} else {
 				if t > 10 {
 					if pb != nil {
-						pb.Prefix(strutil.PadRight(order.Job+"("+order.GetVals()+")"+": failed", SizeBarText, []byte(" ")[0]))
+						pb.Prefix(strutil.PadRight(order.Job+"("+order.getVals()+")"+": failed", sizeBarText, []byte(" ")[0]))
 						pb.Increment()
 					}
 					log.Fatalf("response error " + strconv.Itoa(code) + "\t" + "path:=" + order.Job)
@@ -186,7 +187,7 @@ func (e *Executor) executeJOB(order *Order, pb *pb.ProgressBar) (string, error) 
 			}
 			if t > 30000 {
 				if pb != nil {
-					pb.Prefix(strutil.PadRight(order.Job+"("+order.GetVals()+")"+": failed", SizeBarText, []byte(" ")[0]))
+					pb.Prefix(strutil.PadRight(order.Job+"("+order.getVals()+")"+": failed", sizeBarText, []byte(" ")[0]))
 					pb.Increment()
 				}
 				log.Fatalf("response error1 " + strconv.Itoa(code) + "\t" + "path:=" + order.Job)
@@ -195,7 +196,7 @@ func (e *Executor) executeJOB(order *Order, pb *pb.ProgressBar) (string, error) 
 
 		if pb != nil {
 			pb.Increment()
-			pb.Prefix(strutil.PadRight(order.Job+"("+order.GetVals()+")"+": "+status, SizeBarText, []byte(" ")[0]))
+			pb.Prefix(strutil.PadRight(order.Job+"("+order.getVals()+")"+": "+status, sizeBarText, []byte(" ")[0]))
 		}
 		//time.Sleep(50 * time.Millisecond);for gif building
 		time.Sleep(time.Second)
@@ -225,7 +226,7 @@ func (e *Executor) jreq(job string, api string, query map[string]interface{}) (i
 }
 
 func newProgressBar(wg *sync.WaitGroup) *pb.ProgressBar {
-	pb := pb.New(3).Prefix(strutil.PadRight("", SizeBarText, []byte(" ")[0]))
+	pb := pb.New(3).Prefix(strutil.PadRight("", sizeBarText, []byte(" ")[0]))
 	pb.SetWidth(120)
 	wg.Add(1)
 	return pb
